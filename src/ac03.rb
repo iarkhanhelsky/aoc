@@ -64,6 +64,8 @@ def co2_rate(sequence)
     sequence.first
 end
 
-values = ARGF.to_a
-puts decode(values).inject(&:*)
-puts oxygen_rate(values).to_i(2)* co2_rate(values).to_i(2)
+def main
+    values = ARGF.to_a
+    puts decode(values).inject(&:*)
+    puts oxygen_rate(values).to_i(2)* co2_rate(values).to_i(2)
+end

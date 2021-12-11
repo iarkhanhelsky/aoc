@@ -65,5 +65,8 @@ p points([[9,7],[7,9]])
 raise "Fail" if points([[9,7],[7,9]]) != [[9, 7],[8, 8],[7, 9]]
 raise "Fail" if intersect_s([[9, 4], [3, 4]], [[3, 4], [1,4]]).size != 1
 
-# puts intersections(segments(ARGF).select { |l| along_axes?(l) }).size
-puts intersections(segments(ARGF)).size
+def main
+    segments = segments(ARGF)
+    puts intersections(segments.select { |l| along_axes?(l) }).size
+    puts intersections(segments(ARGF)).size
+end

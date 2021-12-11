@@ -82,5 +82,7 @@ def print_board(board)
     end
 end
 
-values, boards = read
-puts play(values, boards).score
+def main
+    values, boards = read
+    puts play(values, boards).score
+end

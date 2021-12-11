@@ -15,4 +15,6 @@ def sliding_window(values, size = 3)
     end
 end
 
-puts count_increases(sliding_window(ARGF.map(&:to_i)))
+def main
+    puts count_increases(sliding_window(ARGF.map(&:to_i)))
+end

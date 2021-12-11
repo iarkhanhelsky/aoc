@@ -71,13 +71,15 @@ end
 raise 'Fail' unless score_incomplete_line('])}>'.chars) == 294
 
 
-lines = ARGF.to_a
+def main
+    lines = ARGF.to_a
 
-puts lines.map { |l| score_corrupted(check_corrupted(l).last) }.inject(&:+)
-x = lines.map { |l| check_corrupted(l).first }
-          .select { |l| l != nil }
-          .map { |l| l.reverse.map {|x| PAIRS[x] } }
-          .map { |l| score_incomplete_line(l) }
-          .sort
-
-puts x[x.size / 2]
+    puts lines.map { |l| score_corrupted(check_corrupted(l).last) }.inject(&:+)
+    x = lines.map { |l| check_corrupted(l).first }
+              .select { |l| l != nil }
+              .map { |l| l.reverse.map {|x| PAIRS[x] } }
+              .map { |l| score_incomplete_line(l) }
+              .sort
+    
+    puts x[x.size / 2]
+end

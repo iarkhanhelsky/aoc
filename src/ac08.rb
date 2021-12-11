@@ -21,9 +21,11 @@ def decode_line(patterns, value)
     []
 end
 
-values = ARGF.map { |line| line.split('|').map { |v| v.split(' ') } }
-puts values.flat_map { |e| e.last }
-           .select { |e| e.size == 2 || e.size == 3 || e.size == 4 || e.size == 7 }
-           .size
+def main        
+    values = ARGF.map { |line| line.split('|').map { |v| v.split(' ') } }
+    puts values.flat_map { |e| e.last }
+            .select { |e| e.size == 2 || e.size == 3 || e.size == 4 || e.size == 7 }
+            .size
 
-puts values.map { |v| decode_line(*v) }.inject(&:+)
+    puts values.map { |v| decode_line(*v) }.inject(&:+)
+end

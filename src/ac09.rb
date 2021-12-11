@@ -1,14 +1,5 @@
 require 'set'
 
-field = ARGF.map { |l| l.chomp.chars.map(&:to_i) }
-field.insert(0, Array.new(field[0].size, 10))
-field << Array.new(field[0].size, 10)
-
-field.each do |r|
-    r.insert(0, 10)
-    r << 10
-end
-
 def low?(field, i, j)
     low = true
 
@@ -48,6 +39,17 @@ def basin(field, i, j, visited = Set.new)
     return visited
 end
 
-sum, points = find_lows(field)
-puts sum
-puts points.map {|p| basin(field, p.first, p.last).size}.sort[-3..-1].inject(1, &:*)
+def main
+    field = ARGF.map { |l| l.chomp.chars.map(&:to_i) }
+    field.insert(0, Array.new(field[0].size, 10))
+    field << Array.new(field[0].size, 10)
+
+    field.each do |r|
+        r.insert(0, 10)
+        r << 10
+    end
+
+    sum, points = find_lows(field)
+    puts sum
+    puts points.map {|p| basin(field, p.first, p.last).size}.sort[-3..-1].inject(1, &:*)
+end

@@ -10,18 +10,20 @@ def scan(command)
     end
 end
 
-commands = ARGF.map {|v| scan(v) }
+def main        
+    commands = ARGF.map {|v| scan(v) }
 
-aim = 0
+    aim = 0
 
-x = 0
-d = 0
+    x = 0
+    d = 0
 
-commands.each do |h, v|
-    x += h
-    d += h * aim
+    commands.each do |h, v|
+        x += h
+        d += h * aim
 
-    aim += v
+        aim += v
+    end
+            
+    puts d * x
 end
-        
-puts d * x
