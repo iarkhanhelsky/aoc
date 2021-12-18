@@ -1,8 +1,11 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class ac15 {
     public record Point(int x, int y) {}
@@ -19,10 +22,36 @@ public class ac15 {
             }
         }
 
-        // print(field, h, w);
+        checkExpand();
+        System.out.println("CheckExpand() OK");
+        // System.out.println(score(field));
+        // System.out.println(score(expand(field, h, w)));
 
-        System.out.println(score(field));
-        System.out.println(score(expand(field, h, w)));
+        System.out.println(socreAStar(field));
+        System.out.println(socreAStar(expand(field, h, w)));
+    }
+
+    public static void checkExpand() {
+        int[][] testField = new int[][] {
+            { 8},
+        };
+
+        int[][] expanded = new int[][]  {
+            {8, 9, 1, 2, 3}, 
+            {9, 1, 2, 3, 4},
+            {1, 2, 3, 4, 5},
+            {2, 3, 4, 5, 6},
+            {3, 4, 5, 6, 7}
+        };
+
+        int[][] test = expand(testField, 1, 1);
+        for(int i = 0; i < expanded.length; i++) {
+            for(int j = 0; j < expanded.length; j++) {
+                if (test[i][j] != expanded[i][j]) {
+                    throw new RuntimeException("Failed at " + i + ", " + j);
+                }
+            }
+        }
     }
 
     public static int[][] expand(int[][] field, int h, int w) {
@@ -34,7 +63,11 @@ public class ac15 {
             for(int j = 0; j < 5; j++) {
                 for(int k = 0; k < h; k++) {
                     for(int p = 0; p < w; p++) {
-                        exp[i * h + k][j * w + p] = field[i][j] + (i + j);
+                        int r = (field[k][p] + (i + j));
+                        if (r > 9) {
+                            r -= 9;
+                        }
+                        exp[i * h + k][j * w + p] = r;
                     }
                 }
             }
@@ -42,7 +75,35 @@ public class ac15 {
 
         return exp;
     }
-    
+
+    public static int socreAStar(int[][] field) {
+        int h = field.length;
+        int w = field[0].length;
+        int[][] scored = new int[h][w];
+        
+        Queue<Point> queue = new PriorityQueue<>(Comparator.comparing((p) -> scored[p.x][p.y] + (h - p.x  + w - p.y)));
+        queue.add(new Point(0, 0));
+
+        while(!queue.isEmpty()) {
+            Point p = queue.poll();
+            
+            if (p.x == h - 1 && p.y == w - 1) {
+                return scored[h - 1][w - 1];
+            } 
+
+            for (Point n : neighbours(p.x, p.y, h, w)) {
+                int risk = scored[p.x][p.y] + field[n.x][n.y];
+
+                if (scored[n.x][n.y] == 0 || scored[n.x][n.y] > risk) {
+                    scored[n.x][n.y] = risk;
+                    queue.add(n);
+                }
+            }
+        }
+
+        return -1;
+    }
+
     public static int score(int[][] field) {
         int h = field.length;
         int w = field[0].length;
@@ -50,19 +111,21 @@ public class ac15 {
         queue.add(new Point(0, 0));
         int[][] score = new int[h][w];
 
+        Point[] neighbours = new Point[4];
+
         while(!queue.isEmpty()) {
             Point c = queue.poll(); 
             
-            // System.out.println();
-            // System.out.println("i: " + c.x + ", j: " + c.y);
-            // print(score, h, w);
-            
             for(Point n : neighbours(c.x, c.y, h, w)) {
+                if (n == null) {
+                    continue;
+                }
+
                 if (n.x == 0 && n.y == 0) {
                     continue;
                 }
+
                 int risk = field[n.x][n.y] + score[c.x][c.y];
-                // System.out.println(c.x + "," + c.y + " -> " + n.x + "," + n.y + "   r: " + risk + ", cur: " + score[n.x][n.y]);
                 if (score[n.x][n.y] == 0 || score[n.x][n.y] >= risk) {
                     score[n.x][n.y] = risk;
                     queue.add(n);
