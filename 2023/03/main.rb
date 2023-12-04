@@ -56,6 +56,6 @@ groups = values.inject({}) do |acc, v|
 end
 
 puts groups.select { |k, _| k[:v] == '*' }
-        .select { |_, v| v.length == 2 }
-        .map { |_, v| v.inject(&:*) }
-        .sum
+           .select { |_, v| v.length == 2 }
+           .map { |_, v| v.inject(&:*) }
+           .sum
