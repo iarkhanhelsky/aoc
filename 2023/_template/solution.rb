@@ -3,5 +3,3 @@ class Solution
 
     end
 end
-
-Solution.new
