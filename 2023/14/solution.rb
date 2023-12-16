@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 require "digest"
+=======
+require 'digest'
+>>>>>>> 2e31021d5f4ec65ff026e7d68020f31d3e87fd63
 
 class Solution
     def initialize()
@@ -13,22 +17,37 @@ class Solution
             i0 = 0
             platform.size.times do |i|    
                 c = platform[i][j]
+<<<<<<< HEAD
                 os = os + 1 if c == "O"
                 if c == "#" && i0 >= 0
                     (i0..i-1).each do |is|
                         platform[is][j] = os > 0 ? "O" : "."
+=======
+                os = os + 1 if c == 'O'
+                if c == '#' && i0 >= 0
+                    (i0..i-1).each do |is|
+                        platform[is][j] = os > 0 ? 'O' : '.'
+>>>>>>> 2e31021d5f4ec65ff026e7d68020f31d3e87fd63
                         os = os - 1
                     end
                     i0 = -1
                     os = 0
                 end
 
+<<<<<<< HEAD
                 i0 = i if c != "#" && i0 < 0
+=======
+                i0 = i if c != '#' && i0 < 0
+>>>>>>> 2e31021d5f4ec65ff026e7d68020f31d3e87fd63
             end
 
             if os > 0 && i0 >= 0
                 (i0..platform.size - 1).each do |is|
+<<<<<<< HEAD
                     platform[is][j] = os > 0 ? "O" : "."
+=======
+                    platform[is][j] = os > 0 ? 'O' : '.'
+>>>>>>> 2e31021d5f4ec65ff026e7d68020f31d3e87fd63
                     os = os - 1
                 end
             end
@@ -42,7 +61,11 @@ class Solution
         sum = 0
         platform.each_with_index do |r, i|
             r.each do |c|
+<<<<<<< HEAD
                 sum = sum + (sz - i) if c == "O"
+=======
+                sum = sum + (sz - i) if c == 'O'
+>>>>>>> 2e31021d5f4ec65ff026e7d68020f31d3e87fd63
             end
         end
 
@@ -82,9 +105,17 @@ class Solution
                 r = @cache[key].map { |x| x.dup }
             end
         end
+<<<<<<< HEAD
 
         seq.each.with_index do |s, i|
             puts "#{"%3d" % i}  #{s}  #{load(@cache[s])}"
+=======
+        puts ""
+        puts ""
+
+        seq.each.with_index do |s, i|
+            puts "#{'%3d' % i}  #{s}  #{load(@cache[s])}"
+>>>>>>> 2e31021d5f4ec65ff026e7d68020f31d3e87fd63
         end
 
         puts "---"
