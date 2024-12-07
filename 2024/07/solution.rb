@@ -11,10 +11,9 @@ class Solution
     end
 
     def valid?(result, operations, operators: nil)
-        variants = [operations.first]
-        operations[1..-1].each do |o|
-          variants = variants.flat_map { |v| operators.map { |op| op.call(v, o) } }
-                             .select { |x| x <= result }
+        variants = operations[1..-1].inject([operations.first]) do |acc, o|
+          acc.flat_map { |v| operators.map { |op| op.call(v, o) } }
+             .select { |x| x <= result }
         end
 
         variants.include?(result)
