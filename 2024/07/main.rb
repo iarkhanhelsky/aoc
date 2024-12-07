@@ -1,7 +1,8 @@
 require 'benchmark'
 require_relative './solution'
 
-result = Benchmark.measure do 
-  puts Solution.new.run(ARGF.each_line.map(&:chomp))
+measured = Benchmark.measure do 
+  r = Solution.new.run(ARGF.each_line.map(&:chomp)) { |result| puts result }
+  puts r unless r.nil?
 end
-puts result
+puts measured

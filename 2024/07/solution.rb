@@ -23,12 +23,7 @@ class Solution
     def run(lines)
         equations = lines.map { |l| parse(l) }
 
-        [
-            [SUM, MUL], 
-            [SUM, MUL, CAT]
-        ].map do |ops|
-            equations.select { |eq| valid?(*eq, operators: ops) }.map(&:first).sum
-        end
-        
+        yield equations.select { |eq| valid?(*eq, operators: [SUM, MUL]) }.map(&:first).sum
+        yield equations.select { |eq| valid?(*eq, operators: [SUM, MUL, CAT]) }.map(&:first).sum
     end
 end
