@@ -1,5 +1,5 @@
 class Solution
-    def run(lines)
+  def run(lines)
 
-    end
+  end
 end
