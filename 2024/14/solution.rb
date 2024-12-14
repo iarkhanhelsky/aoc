@@ -68,11 +68,32 @@ class Solution
           .inject(1, &:*)
   end
 
+  def aggregate(robots)
+    avg = robots.inject([0, 0]) { |acc, r| [acc[0] + r[0], acc[1] + r[1]] }
+    avg = [avg[0]/robots.size, avg[1]/robots.size]
+    sq2 = robots.inject([0, 0]) { |acc, r| [ acc[0] + (r[0] - avg[0])**2, acc[1] + (r[1] - avg[1])**2] }
+    sq2 = [(sq2[0]/robots.size)**0.5, (sq2[1]/robots.size)**0.5]
+    sq2
+  end
+
   def run(lines)
     robots = lines.map{ |l| parse(l) }
     size = [WIDTH, HEIGHT]
     size = robots.shift if robots[0].size == 2
     
     yield count(simulate(robots, size, 100), size)
+
+    it = 0
+    dit = 1
+    while it < 165200
+      robots = simulate(robots, size, 1)
+      it = it + dit
+      sq2 = aggregate(robots)
+      if sq2[0] < 19 && sq2[1] < 19
+        puts "#{it} #{sq2[0]} #{sq2[1]}"
+        IO.write(ENV['TEST_FILE'] + ".out", pprint(robots, size))
+        break
+      end
+    end
   end
 end
