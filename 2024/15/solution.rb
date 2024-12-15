@@ -1,3 +1,5 @@
+require_relative '../lib/grid'
+
 class Solution
   DIRECTIONS = {
     '^' => [-1, 0],
@@ -7,16 +9,17 @@ class Solution
   }
 
   def execute!(i, j, grid, moves)
-    tg = Marshal.load(Marshal.dump(grid))
+    tg = grid.copy
+    cp = grid.copy
     while !moves.empty?
       m = moves.shift
       di, dj = *DIRECTIONS[m]
 
-      cp = Marshal.load(Marshal.dump(tg))
+      tg.copy_to(cp)
       if move(i, j, di, dj, cp)
         i += di
         j += dj
-        tg = cp
+        cp.copy_to(tg)
       end
     end
 
@@ -78,10 +81,6 @@ class Solution
     end
   end
 
-  def pprint(grid)
-    puts grid.map(&:join).join("\n")
-  end
-
   def evaluate(grid)
     sum = 0
 
@@ -98,12 +97,11 @@ class Solution
   
   def run(lines)
     split = lines.index('')
-    grid1 = lines[0..split].map(&:chars)
+    grid1 = Grid.from_lines(lines[0..split])
     moves = lines[split..-1].join.chars
 
-    grid2 = transform(grid1)
+    grid2 = Grid.from_2d(transform(grid1))
     
-  
     [grid1, grid2].each do |g|
       i = g.index { |r| r.include?('@') }
       j = g[i].index('@')
