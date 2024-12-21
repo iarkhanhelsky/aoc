@@ -78,7 +78,7 @@ class Grid < Array
         i = i0 + di
         j = j0 + dj
         s = score[[i0, j0]] + 1
-        if check_bounds(i, j) && (!score.key?([i, j]) || score[[i, j]] < s) && pass.call(self, i, j)
+        if check_bounds(i, j) && (!score.key?([i, j]) || score[[i, j]] > s) && pass.call(self, i, j)
           queue << [i, j]
           score[[i, j]] = s
         end
