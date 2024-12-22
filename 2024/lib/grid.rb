@@ -34,11 +34,14 @@ class Grid < Array
   end
 
   def location(value)
+  
     i = self.index {|r| r.include?(value) }
     nil if i.nil?
     j = self[i].index(value)
 
     return [i, j]
+  rescue Exception => x
+    raise "Looking for #{value}: #{x.message}"
   end
 
   def pprint
