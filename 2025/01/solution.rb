@@ -1,25 +1,21 @@
 class Solution
-  def exec(dial, l)
+  def exec(dial, command)
     dial, z0 = *dial 
-    direction = l[0] == 'L' ? -1 : 1
-    count = l[1..].to_i
+    direction = command[0] == 'L' ? -1 : 1
+    count = command[1..].to_i
 
     x = dial + direction * (count % 100)
     z = (count / 100)
 
-    if x < 0
-      x = x % 99 + 1
-      
-      z += 1 if dial > 0
-    elsif x > 99
-      x = x % 99 - 1
-      
+    if x <= 0 && dial > 0
+      z += 1 
+    elsif x >= 100      
       z += 1
     elsif x == 0
       z += 1
     end
 
-    [x, z0 + z]
+    [x % 100, z0 + z]
   end
 
   def run(commands)
