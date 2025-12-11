@@ -1,0 +1,7 @@
+you: out
+svr: aaa bbb ccc
+aaa: bbb ccc
+bbb: dac
+ccc: bbb
+dac: fft
+fft: out
