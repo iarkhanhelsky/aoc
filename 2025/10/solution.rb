@@ -1,4 +1,5 @@
 require 'set'
+require 'matrix'
 
 
 class Solution
@@ -11,7 +12,7 @@ class Solution
     buttons = line.scan(/\([^)]+\)/)
 
     buttons = buttons.map { |b| b.scan(/\d+/).inject(0) { |a, x| a | (1 << x.to_i) } }
-    joltage = line[/\{(.*)\}/, 1].scan(/\d+/)
+    joltage = line[/\{(.*)\}/, 1].scan(/\d+/).map(&:to_i)
 
     [bits, scheme, buttons, joltage]
   end
@@ -45,9 +46,22 @@ class Solution
     min_clicks[t]
   end
 
+
+  def joltage(buttons, joltage)
+    a = joltage.size.times.map do |i|
+      mask = 1 << i
+      buttons.map { |b| (b & mask == 0 ? 0 : 1) }
+    end
+
+    p a
+    p joltage
+    0
+  end
+
   def run(lines)
     lines = lines.map { |l| parse(l) }
 
     yield lines.map { |bits, scheme, buttons, _| clicks(bits, scheme, buttons) }.sum
+    yield lines.map { |bits, _, buttons, joltage| joltage(buttons, joltage) }.sum
   end
 end
